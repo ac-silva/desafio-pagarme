@@ -2,14 +2,31 @@ package PagarMe.api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Card {
-	private long id;
+	@JsonProperty("id")
+	private String id;
+	
+	@JsonProperty("brand")
 	private String brand;
+	
+	@JsonProperty("country")
 	private String country;
+	
+	@JsonProperty("finger_print")
 	private String fingerprint;
+	
+	@JsonProperty("finger_print")
 	private boolean valid;
+	
+	@JsonProperty("card_number")
+	private String cardNumber;
+	
+	@JsonProperty("card_hash")
+	private String cardHash;
 	
 	@JsonProperty("holder_name")
 	private String holderName;
@@ -21,7 +38,10 @@ public class Card {
 	private String lastDigits;
 	
 	@JsonProperty("expiration_date")
-	private Date expirationDate;
+	private String expirationDate;
+	
+	@JsonProperty("card_cvv")
+	private String cvv;
 	
 	@JsonProperty("date_created")
 	private Date createdAt;
@@ -29,10 +49,10 @@ public class Card {
 	@JsonProperty("date_updated")
 	private Date updatedAt;
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getBrand() {
@@ -77,10 +97,10 @@ public class Card {
 	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
-	public Date getExpirationDate() {
+	public String getExpirationDate() {
 		return expirationDate;
 	}
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 	public Date getCreatedAt() {
@@ -94,5 +114,23 @@ public class Card {
 	}
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public String getCardNumber() {
+		return cardNumber;
+	}
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+	public String getCardHash() {
+		return cardHash;
+	}
+	public void setCardHash(String cardHash) {
+		this.cardHash = cardHash;
+	}
+	public String getCvv() {
+		return cvv;
+	}
+	public void setCvv(String cvv) {
+		this.cvv = cvv;
 	}
 }

@@ -1,12 +1,17 @@
 package PagarMe.api.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Class Transaction.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction {
 	/** Número identificador da transação. */
 	private long id;
@@ -40,11 +45,11 @@ public class Transaction {
 	private long nsu;
 	
 	/** Valor, em centavos, da transação. */
-	private Double amount;
+	private long amount;
 	
 	/** Valor, em centavos, capturado da transação. */
 	@JsonProperty("paid_amount")
-	private Double paidAmount;
+	private long paidAmount;
 	
 	/** Número de parcelas/prestações a serem cobradas. */
 	private int installments;
@@ -64,7 +69,7 @@ public class Transaction {
 	private Customer customer;
 	
 	/** Dados do cartão usado na transação. */
-	@JsonProperty("card")
+	@JsonIgnore
 	private Card card;
 	
 	/** Data de criação da transação no formato. */
@@ -75,11 +80,51 @@ public class Transaction {
 	@JsonProperty("date_updated")
 	private Date updatedAt;
 	
+	@JsonProperty("payment_method")
+	private String paymentMethod;
+	
+	@JsonProperty("card_hash")
+	private String cardHash;
+	
+	@JsonProperty("postback_url")
+	private String postbackURL;
+	
+	@JsonProperty("async")
+	private boolean async;
+	
+	@JsonProperty("capture")
+	private boolean capture;
+	
+	@JsonProperty("metadata")
+	private String metadata;
+	
+	@JsonProperty("phone")
+	private Phone phone;
+	
+	@JsonProperty("card_number")
+	private String cardNumber;
+	
+	
+	@JsonProperty("card_expiration_date")
+	private String cardExpirationDate;
+	
+	@JsonProperty("card_holder_name")
+	private String cardHolderName;
+	
+	@JsonProperty("card_cvv")
+	private String cardCvv;
+
+	@JsonProperty("card_id")
+	private String cardId;
+	
+	@JsonProperty("split_rules")
+	List<SplitRule> splitRules;
+	
+	
 	/**
 	 * Instantiates a new transaction.
 	 */
 	public Transaction(){
-		this.boleto   = new Boleto();
 		this.acquirer = new Acquirer();
 	}
 	
@@ -253,7 +298,7 @@ public class Transaction {
 	 *
 	 * @return the amount
 	 */
-	public Double getAmount() {
+	public long getAmount() {
 		return amount;
 	}
 	
@@ -262,7 +307,7 @@ public class Transaction {
 	 *
 	 * @param amount the new amount
 	 */
-	public void setAmount(Double amount) {
+	public void setAmount(long amount) {
 		this.amount = amount;
 	}
 	
@@ -271,7 +316,7 @@ public class Transaction {
 	 *
 	 * @return the paid amount
 	 */
-	public Double getPaidAmount() {
+	public long getPaidAmount() {
 		return paidAmount;
 	}
 	
@@ -280,7 +325,7 @@ public class Transaction {
 	 *
 	 * @param paidAmount the new paid amount
 	 */
-	public void setPaidAmount(Double paidAmount) {
+	public void setPaidAmount(long paidAmount) {
 		this.paidAmount = paidAmount;
 	}
 	
@@ -336,6 +381,7 @@ public class Transaction {
 	 */
 	@JsonProperty("boleto_url")
 	public void setBoletoURL(String url) {
+		createBoletoIfNotWasCreated();
 		this.boleto.setUrl(url);
 	}
 	
@@ -346,6 +392,7 @@ public class Transaction {
 	 */
 	@JsonProperty("boleto_barcode")
 	public void setBoletoBarcode(String barcode){
+		createBoletoIfNotWasCreated();
 		this.boleto.setBarcode(barcode);
 	}
 	
@@ -356,7 +403,14 @@ public class Transaction {
 	 */
 	@JsonProperty("boleto_expiration_date")
 	public void setBoletoBarcode(Date expirationDate){
+		createBoletoIfNotWasCreated();
 		this.boleto.setExpirationDate(expirationDate);
+	}
+	
+	@JsonProperty("boleto_instructions")
+	public void setBoletoInstructions(String boletoInstructions){
+		createBoletoIfNotWasCreated();
+		this.boleto.setBoletoInstructions(boletoInstructions);
 	}
 	
 	/**
@@ -405,14 +459,6 @@ public class Transaction {
 		return card;
 	}
 	
-	/**
-	 * Sets the card.
-	 *
-	 * @param card the new card
-	 */
-	public void setCard(Card card) {
-		this.card = card;
-	}
 	
 	/**
 	 * Gets the created at.
@@ -448,6 +494,97 @@ public class Transaction {
 	 */
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	
+	private void createBoletoIfNotWasCreated(){
+		if(!isBoletoInitialized()) this.boleto = new Boleto();
+	}
+
+	private boolean isBoletoInitialized() {
+		return this.boleto instanceof Boleto;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getCardHash() {
+		return cardHash;
+	}
+
+	public void setCardHash(String cardHash) {
+		this.cardHash = cardHash;
+	}
+
+
+	public String getPostbackURL() {
+		return postbackURL;
+	}
+
+	public void setPostbackURL(String postbackURL) {
+		this.postbackURL = postbackURL;
+	}
+
+	public boolean isAsync() {
+		return async;
+	}
+
+	public void setAsync(boolean async) {
+		this.async = async;
+	}
+
+	public boolean isCapture() {
+		return capture;
+	}
+
+	public void setCapture(boolean capture) {
+		this.capture = capture;
+	}
+
+	public String getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(String metadata) {
+		this.metadata = metadata;
+	}
+
+	public Phone getPhone() {
+		return phone;
+	}
+
+	public void setPhone(Phone phone) {
+		this.phone = phone;
+	}
+	
+	public void setCard(Card card){
+		this.card 				= card;
+		this.cardId 			= card.getId();
+		this.cardNumber 		= card.getCardNumber();
+		this.cardExpirationDate = card.getExpirationDate();
+		this.cardHolderName 	= card.getHolderName();
+		this.cardCvv 			= card.getCvv();
+	}
+	
+	private boolean isInitializedListSplitRules(){
+		return this.splitRules != null;
+	}
+	
+	public void addSplitRule(SplitRule split) {
+		if(isInitializedListSplitRules()) this.splitRules = new ArrayList<>();
+		splitRules.add(split);
+	}
+
+	public List<SplitRule> getSplitRules() {
+		return splitRules;
+	}
+
+	public void setSplitRules(List<SplitRule> splitRules) {
+		this.splitRules = splitRules;
 	}
 	
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Recebíveis</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+  <style type="text/css">
+    .panel-body form input{
+      margin-bottom: 10px;
+    }
+    #box-create-transaction{
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+	{{#showPayables}}
+    <h1>Recebíveis</h1>
+    <div>
+      <table class="table table-borded">
+      	<thead>
+      	<tr>
+          <td>ID</td>
+          <td>Valor</td>
+          <td>Id da transação</td>
+          <td>Id do recebedor</td>
+          <td>Id SPLIT_RULE</td>
+          <td>Tipo de transação</td>
+          <td>Qtd. de Parcelas</td>
+          <td>Data de pagamento</td>
+          <td>Data de Criação</td>
+      	</tr>
+      	</thead>
+      	<tbody>
+	        {{#payables}}
+	        <tr>
+	          <td>{{id}}</td>
+	          <td>{{amount}}</td>
+	          <td>{{transactionId}}</td>
+	          <td>{{recipientId}}</td>
+	          <td>{{splitRoleId}}</td>
+	          <td>{{type}}</td>
+	          <td>{{installment}}</td>
+	          <td>{{paymentDate}}</td>
+	          <td>{{dateCreated}}</td>
+	        </tr>
+	         {{/payables}}
+         </tbody>
+        </table>
+        
+      </div>
+      {{/showPayables}}
+      {{^showPayables}}
+      	<h2>Não há recebíveis no momento</h2>
+      {{/showPayables}}
+    </div>
+</body>
+</html>

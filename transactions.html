@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Desafio transações</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+  <style type="text/css">
+    .panel-body form input{
+      margin-bottom: 10px;
+    }
+    #box-create-transaction{
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  	{{#isError}}
+  	<div>
+  		<h3 style="background: red; color: #ffffff;">ERRO - {{error}}</h3>
+  	</div>
+  	{{/isError}}
+  	
+  	{{#showTransactions}}
+  	<div class="panel panel-default" id="box-create-transaction">
+      <div class="panel-body">
+	    <h1>Transações</h1>
+	    <div>
+	      <table class="table table-borded">
+	      	<thead>
+	      	<tr>
+	          <td>ID</td>
+	          <td>Cliente</td>
+	          <td>CPF Cliente</td>
+	          <td>Valor</td>
+	      	</tr>
+	      	</thead>
+	      	<tbody>
+		        {{#transactions}}
+		        <tr>
+		          <td>{{id}}</td>
+		          <td>{{#customer}}{{name}}{{/customer}}</td>
+		          <td>{{#customer}}{{cpf}}{{/customer}}</td>
+		          <td>{{amount}}</td>
+		        </tr>
+		         {{/transactions}}
+	         </tbody>
+	        </table>
+	        
+	      </div>
+		</div>
+	</div>
+  	{{/showTransactions}}
+    <div class="panel panel-default" id="box-create-transaction">
+      <div class="panel-body">
+        <h4>Criar transação</h4>
+        <form method="post" action="">
+          <input type="text" placeholder="Id do Cliente" name="customer_id" class="form-control" />
+          <input type="text" placeholder="Valor" name="amount" class="form-control"/>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h4>Dados do cartão</h4>
+              <input type="text" placeholder="Número do cartão" name="card_number" class="form-control" />
+              <input type="text" placeholder="CVV" name="card_cvv" class="form-control"/>
+              <input type="text" placeholder="Nome do titular" name="card_holder_name" class="form-control" />
+              <input type="text" placeholder="Data de vencimento" name="card_expiration_date" class="form-control"/>
+            </div>
+          </div>
+			<div class="panel panel-default">
+			 <div class="panel-body">
+			   <h4>Dados dos recebedores</h4>
+			   <input type="text" placeholder="Id do recebedor" name="split_rule_1_recipient_id" class="form-control" />
+			   <input type="text" placeholder="Porcentagem" name="split_rule_1_percentage" class="form-control"/>
+			   <input type="text" placeholder="Valor" name="split_rule_!_amount" class="form-control" />
+			   <hr/>
+			   <input type="text" placeholder="Id do recebedor" name="split_rule_2_recipient_id" class="form-control" />
+			   <input type="text" placeholder="Porcentagem" name="split_rule_2_percentage" class="form-control"/>
+			   <input type="text" placeholder="Valor" name="split_rule_2_amount" class="form-control" />
+			 </div>
+          	</div>
+          <input type="submit" value="Criar" class="btn btn-success" />
+        </form>
+      </div>
+    </div>
+	
+	
+    </div>
+</body>
+</html>
